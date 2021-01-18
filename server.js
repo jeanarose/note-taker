@@ -17,15 +17,14 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // *******   HTML ROUTES   *******
-
-// Returns the index.html file
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
+// Returns the notes.html file.
+app.get("/notes", function (req, res) {
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
-// Returns the notes.html file.
-app.get("/public/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "/public/notes.html"));
+// Returns the index.html file
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
 // *******   API ROUTES   *******
