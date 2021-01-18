@@ -38,17 +38,27 @@ app.post("/api/notes", function (req, res) {
     res.writeHead(200, { "Content-Type": "application/json" });
     let parsedData = JSON.parse(data);
     parsedData.push(newNote);
+    parsedData.forEach((item, i) => {
+      item.id = i + 1;
+    });
     console.log(parsedData);
     let stringifiedData = JSON.stringify(parsedData);
     res.end(stringifiedData);
+    // Put the new note object into db.json
     fs.writeFile("./db/db.json", stringifiedData, (err) => {
       if (err) throw err;
       console.log("Data written to file");
     });
   });
-
   // Return the new note to the client
+  
 });
+
+// Should receive a query parameter containing the id of a note to delete.
+// This means you'll need to find a way to give each note a unique id when it's saved.
+// In order to delete a note, you'll need to read all notes from the db.json file, remove
+// the note with the given id property, and then rewrite the notes to the db.json file.
+// DELETE /api/notes/:id
 
 // *******   HTML ROUTES   *******
 // Returns the notes.html file.
@@ -61,14 +71,7 @@ app.get("*", function (req, res) {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
-
-// Should receive a query parameter containing the id of a note to delete.
-// This means you'll need to find a way to give each note a unique id when it's saved.
-// In order to delete a note, you'll need to read all notes from the db.json file, remove
-// the note with the given id property, and then rewrite the notes to the db.json file.
-// DELETE /api/notes/:id
-
 // Starts the server to begin listening
 app.listen(PORT, function () {
-  console.log(`App listening on PORT " + ${PORT}.`);
+  console.log(`App listening on PORT ${PORT}.`);
 });
