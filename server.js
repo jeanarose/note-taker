@@ -48,12 +48,17 @@ app.post("/api/notes", function (req, res) {
   fs.readFile("./db/db.json", function (err, data) {
     if (err) throw err;
     res.writeHead(200, { "Content-Type": "application/json" });
-    const parsedData = JSON.parse(data);
+    let parsedData = JSON.parse(data);
     parsedData.push(newNote);
     console.log(parsedData);
-    const stringifiedData = JSON.stringify(parsedData);
+    let stringifiedData = JSON.stringify(parsedData);
     res.end(stringifiedData);
+    fs.writeFile("./db/db.json", stringifiedData, (err) => {
+      if (err) throw err;
+      console.log("Data written to file");
+    });
   });
+
   // Return the new note to the client
 });
 
