@@ -16,17 +16,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 
-// *******   HTML ROUTES   *******
-// Returns the notes.html file.
-app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "/public/notes.html"));
-});
-
-// Returns the index.html file
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "/public/index.html"));
-});
-
 // *******   API ROUTES   *******
 // Reads the db.json file and return all saved notes as JSON.
 app.get("/api/notes", function (req, res) {
@@ -61,16 +50,17 @@ app.post("/api/notes", function (req, res) {
   // Return the new note to the client
 });
 
-// Create New Characters - takes in JSON input
-app.post("/api/characters", function (req, res) {
-  var newCharacter = req.body;
-
-  console.log(newCharacter);
-
-  characters.push(newCharacter);
-
-  res.json(newCharacter);
+// *******   HTML ROUTES   *******
+// Returns the notes.html file.
+app.get("/notes", function (req, res) {
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
+
+// Returns the index.html file
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
 
 // Should receive a query parameter containing the id of a note to delete.
 // This means you'll need to find a way to give each note a unique id when it's saved.
