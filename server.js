@@ -3,6 +3,7 @@ const express = require("express");
 const fs = require("fs");
 const database = require("./db/db.json");
 const path = require("path");
+const { json } = require("express");
 
 // Define a PORT to listen on
 const PORT = process.env.PORT || 3000;
@@ -13,7 +14,7 @@ const app = express();
 // Set up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('public'))
+app.use(express.static("public"));
 
 // *******   HTML ROUTES   *******
 
@@ -47,14 +48,17 @@ app.post("/api/notes", function (req, res) {
   fs.readFile("./db/db.json", function (err, data) {
     if (err) throw err;
     res.writeHead(200, { "Content-Type": "application/json" });
-    data.push(newNote);
-    res.end(data);
+    const parsedData = JSON.parse(data);
+    parsedData.push(newNote);
+    console.log(parsedData);
+    const stringifiedData = JSON.stringify(parsedData);
+    res.end(stringifiedData);
   });
   // Return the new note to the client
 });
 
 // Create New Characters - takes in JSON input
-app.post("/api/characters", function(req, res) {
+app.post("/api/characters", function (req, res) {
   var newCharacter = req.body;
 
   console.log(newCharacter);
