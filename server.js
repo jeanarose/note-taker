@@ -13,27 +13,22 @@ const app = express();
 // Set up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static('public'))
 
-// *******   ROUTES   *******
+// *******   HTML ROUTES   *******
 
-// Route that returns the index.html file
+// Returns the index.html file
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
-// Route that returns the notes.html file.
+// Returns the notes.html file.
 app.get("/public/notes", function (req, res) {
   res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
-// Starts the server to begin listening
-app.listen(PORT, function () {
-  console.log(`App listening on PORT " + ${PORT}.`);
-});
-
 // *******   API ROUTES   *******
-// Should read the db.json file and return all saved notes as JSON.
-// GET /api/notes
+// Reads the db.json file and return all saved notes as JSON.
 app.get("/api/notes", function (req, res) {
   fs.readFile("./db/db.json", function (err, data) {
     if (err) throw err;
@@ -42,17 +37,40 @@ app.get("/api/notes", function (req, res) {
   });
 });
 
-// Displays all characters
-// app.get("/api/characters", function (req, res) {
-//   return res.json(characters);
-// });
+// Receives a new note to save on the request body, adds it to the db.json file,
+// and then returns the new note to the client.
+app.post("/api/notes", function (req, res) {
+  // Receive a new note to save on the request body
+  const newNote = req.body;
+  console.log(newNote);
+  // Add it to the db.json file
+  fs.readFile("./db/db.json", function (err, data) {
+    if (err) throw err;
+    res.writeHead(200, { "Content-Type": "application/json" });
+    data.push(newNote);
+    res.end(data);
+  });
+  // Return the new note to the client
+});
 
-// Should receive a new note to save on the request body, add it to the db.json file,
-// and then return the new note to the client.
-// POST /api/notes
+// Create New Characters - takes in JSON input
+app.post("/api/characters", function(req, res) {
+  var newCharacter = req.body;
+
+  console.log(newCharacter);
+
+  characters.push(newCharacter);
+
+  res.json(newCharacter);
+});
 
 // Should receive a query parameter containing the id of a note to delete.
 // This means you'll need to find a way to give each note a unique id when it's saved.
 // In order to delete a note, you'll need to read all notes from the db.json file, remove
 // the note with the given id property, and then rewrite the notes to the db.json file.
 // DELETE /api/notes/:id
+
+// Starts the server to begin listening
+app.listen(PORT, function () {
+  console.log(`App listening on PORT " + ${PORT}.`);
+});
