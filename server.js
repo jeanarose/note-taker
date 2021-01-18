@@ -5,7 +5,7 @@ const database = require("./db/db.json");
 const path = require("path");
 
 // Define a PORT to listen on
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Create a server using Express
 const app = express();
