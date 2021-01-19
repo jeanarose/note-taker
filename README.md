@@ -16,6 +16,8 @@ View the deployed application here: https://sheltered-savannah-52786.herokuapp.c
 
 ## Note Taker
 ![Screenshot of Note Taker application.](public/assets/images/note-taker-screenshot.png)
+<hr>
+
 ## Table of Contents
 * [Installation](#installation)
 * [Usage](#usage)
@@ -78,6 +80,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. 
 ## Tests
+Interested in testing Note Taker?
+1. When you input text into both the Note Title and Note Text fields, the save button appears in the top right corner.
+2. Ensure that you can save a new note and that the note title is added to the side dock after the click of the save button. 
+3. Save at least one note, then refresh the page to ensure that the note persisted after a refresh.
+4. When you click the trash icon, the corresponding note is removed from the dock and does not reappear after a page refresh. 
 
 ## Questions
 If you have any questions, you can contact me at jr.mathis608@gmail.com. 
