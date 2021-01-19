@@ -1,10 +1,8 @@
 // Dependencies
 const express = require("express");
 const fs = require("fs");
-const database = require("./db/db.json");
 const path = require("path");
-const { json } = require("express");
-const { parse } = require("path");
+const {v4:uuidv4} = require("uuid");
 
 // Define a PORT to listen on
 const PORT = process.env.PORT || 3000;
@@ -32,6 +30,7 @@ app.get("/api/notes", function (req, res) {
 app.post("/api/notes", function (req, res) {
   // Receive a new note to save on the request body
   const newNote = req.body;
+  newNote.id = uuidv4();
   // Add it to the db.json file
   fs.readFile("./db/db.json", function (err, data) {
     if (err) throw err;
@@ -39,9 +38,10 @@ app.post("/api/notes", function (req, res) {
     let parsedData = JSON.parse(data);
     parsedData.push(newNote);
     // Adds an ID to each object
-    parsedData.forEach((item, i) => {
-      item.id = i + 1;
-    });
+    // parsedData.forEach((item, i) => {
+    //   item.id = i + 1;
+    // });
+
     let stringifiedData = JSON.stringify(parsedData);
     res.end(stringifiedData);
     // Put the new note object into db.json
@@ -51,26 +51,31 @@ app.post("/api/notes", function (req, res) {
     });
   });
   // Return the new note to the client
+  // res.json(newNote);
 });
 
 // Should receive a query parameter containing the id of a note to delete.
-app.delete("/api/notes/:id", function (req, res) {
+app.delete("/notes/api/notes/:id", function (req, res) {
   const noteID = req.params.id;
 
   // Add it to the db.json file
   fs.readFile("./db/db.json", function (err, data) {
     if (err) throw err;
-    res.writeHead(200, { "Content-Type": "application/json" });
     let parsedData = JSON.parse(data);
-    for (let i = 0; parsedData.length; i++) {
+    const newData = parsedData.filter((note) => {
+      console.log(note.id, noteID)
+      return note.id !== noteID;
+    });
+    console.log(newData);
+    for (let i = 0; i < parsedData.length; i++) {
       if (noteID === parsedData[i].id) {
-        parsedData.splice(parsedData[i]);
+        // parsedData = parsedData.splice(indexOf(parsedData[i]), 1);
       }
     }
 
-    let stringifiedData = JSON.stringify(parsedData);
+    let stringifiedData = JSON.stringify(newData);
     res.end(stringifiedData);
-    
+
     fs.writeFile("./db/db.json", stringifiedData, (err) => {
       if (err) throw err;
       console.log("Data written to file");
