@@ -1,9 +1,21 @@
-# note-taker
+# Note Taker
 [![license: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ## Description
-Note taker is a local server that keeps notes saved
+[Note Taker](https://sheltered-savannah-52786.herokuapp.com/) is an application that allows users to save and delete notes as desired. This is a useful application for any user looking to store information quickly and easily, from saving work information to saving personal information such as a grocery list. Note Taker utilizes several key technologies:
+
+* Node.JS
+* A Heroku server
+* HTML and API routes
+* Express
+* JSON
+* fs
+* Path 
+* UUID
 
 View the deployed application here: https://sheltered-savannah-52786.herokuapp.com/
+
+## Note Taker
+![Screenshot of Note Taker application.](public/assets/images/note-taker-screenshot.png)
 ## Table of Contents
 * [Installation](#installation)
 * [Usage](#usage)
@@ -23,6 +35,7 @@ View the deployed application here: https://sheltered-savannah-52786.herokuapp.c
 ## Credits
 The following people contributed to the success of this application. You can view their GitHub profiles by clicking on their names:
 * [Jonathan Watson](https://github.com/jonathanjwatson)
+* [Peter Colella](https://github.com/petercolella)
 
 The following sites were used to find code to make Weather Dashboard function properly:
 * [Express:](https://expressjs.com/en/starter/static-files.html) Serving up static files in Express
