@@ -27,7 +27,7 @@ app.get("/api/notes", function (req, res) {
 });
 
 // Adds a new note to the page
-app.post("api/notes", function (req, res) {
+app.post("/api/notes", function (req, res) {
   const newNote = req.body;
   newNote.id = uuidv4();
 
