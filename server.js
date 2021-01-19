@@ -44,8 +44,6 @@ app.post("/api/notes", function (req, res) {
       console.log("Data written to file");
     });
   });
-  // Return the new note to the client
-  res.json(newNote);
 });
 
 // Should receive a query parameter containing the id of a note to delete.
