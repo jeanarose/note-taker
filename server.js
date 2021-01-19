@@ -25,33 +25,27 @@ app.get("/api/notes", function (req, res) {
   });
 });
 
-// Receives a new note to save on the request body, adds it to the db.json file,
-// and then returns the new note to the client.
+// Receives a new note to save on the request body, adds it to the db.json file, and then returns the new note to the client.
 app.post("/api/notes", function (req, res) {
-  // Receive a new note to save on the request body
   const newNote = req.body;
   newNote.id = uuidv4();
-  // Add it to the db.json file
+
   fs.readFile("./db/db.json", function (err, data) {
     if (err) throw err;
     res.writeHead(200, { "Content-Type": "application/json" });
+
     let parsedData = JSON.parse(data);
     parsedData.push(newNote);
-    // Adds an ID to each object
-    // parsedData.forEach((item, i) => {
-    //   item.id = i + 1;
-    // });
-
     let stringifiedData = JSON.stringify(parsedData);
     res.end(stringifiedData);
-    // Put the new note object into db.json
+
     fs.writeFile("./db/db.json", stringifiedData, (err) => {
       if (err) throw err;
       console.log("Data written to file");
     });
   });
   // Return the new note to the client
-  // res.json(newNote);
+  res.json(newNote);
 });
 
 // Should receive a query parameter containing the id of a note to delete.
