@@ -4,6 +4,7 @@ const fs = require("fs");
 const database = require("./db/db.json");
 const path = require("path");
 const { json } = require("express");
+const { parse } = require("path");
 
 // Define a PORT to listen on
 const PORT = process.env.PORT || 3000;
@@ -31,17 +32,16 @@ app.get("/api/notes", function (req, res) {
 app.post("/api/notes", function (req, res) {
   // Receive a new note to save on the request body
   const newNote = req.body;
-  console.log(newNote);
   // Add it to the db.json file
   fs.readFile("./db/db.json", function (err, data) {
     if (err) throw err;
     res.writeHead(200, { "Content-Type": "application/json" });
     let parsedData = JSON.parse(data);
     parsedData.push(newNote);
+    // Adds an ID to each object
     parsedData.forEach((item, i) => {
       item.id = i + 1;
     });
-    console.log(parsedData);
     let stringifiedData = JSON.stringify(parsedData);
     res.end(stringifiedData);
     // Put the new note object into db.json
@@ -51,14 +51,32 @@ app.post("/api/notes", function (req, res) {
     });
   });
   // Return the new note to the client
-  
 });
 
 // Should receive a query parameter containing the id of a note to delete.
-// This means you'll need to find a way to give each note a unique id when it's saved.
-// In order to delete a note, you'll need to read all notes from the db.json file, remove
-// the note with the given id property, and then rewrite the notes to the db.json file.
-// DELETE /api/notes/:id
+app.delete("/api/notes/:id", function (req, res) {
+  const noteID = req.params.id;
+
+  // Add it to the db.json file
+  fs.readFile("./db/db.json", function (err, data) {
+    if (err) throw err;
+    res.writeHead(200, { "Content-Type": "application/json" });
+    let parsedData = JSON.parse(data);
+    for (let i = 0; parsedData.length; i++) {
+      if (noteID === parsedData[i].id) {
+        parsedData.splice(parsedData[i]);
+      }
+    }
+
+    let stringifiedData = JSON.stringify(parsedData);
+    res.end(stringifiedData);
+    
+    fs.writeFile("./db/db.json", stringifiedData, (err) => {
+      if (err) throw err;
+      console.log("Data written to file");
+    });
+  });
+});
 
 // *******   HTML ROUTES   *******
 // Returns the notes.html file.
