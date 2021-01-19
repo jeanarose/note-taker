@@ -16,7 +16,6 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // *******   API ROUTES   *******
-
 // Reads the db.json file and return all saved notes as JSON.
 app.get("/api/notes", function (req, res) {
   fs.readFile("./db/db.json", function (err, data) {
@@ -26,31 +25,40 @@ app.get("/api/notes", function (req, res) {
   });
 });
 
-// Adds a new note to the page
+// Receives a new note to save on the request body, adds it to the db.json file,
+// and then returns the new note to the client.
 app.post("/api/notes", function (req, res) {
+  // Receive a new note to save on the request body
   const newNote = req.body;
   newNote.id = uuidv4();
-
+  // Add it to the db.json file
   fs.readFile("./db/db.json", function (err, data) {
     if (err) throw err;
     res.writeHead(200, { "Content-Type": "application/json" });
     let parsedData = JSON.parse(data);
     parsedData.push(newNote);
+    // Adds an ID to each object
+    // parsedData.forEach((item, i) => {
+    //   item.id = i + 1;
+    // });
+
     let stringifiedData = JSON.stringify(parsedData);
     res.end(stringifiedData);
-
+    // Put the new note object into db.json
     fs.writeFile("./db/db.json", stringifiedData, (err) => {
       if (err) throw err;
       console.log("Data written to file");
     });
   });
-  res.json(newNote);
+  // Return the new note to the client
+  // res.json(newNote);
 });
 
-// Deletes a note from the page
+// Should receive a query parameter containing the id of a note to delete.
 app.delete("/api/notes/:id", function (req, res) {
   const noteID = req.params.id;
 
+  // Add it to the db.json file
   fs.readFile("./db/db.json", function (err, data) {
     if (err) throw err;
     let parsedData = JSON.parse(data);
@@ -61,8 +69,10 @@ app.delete("/api/notes/:id", function (req, res) {
     console.log(newData);
     for (let i = 0; i < parsedData.length; i++) {
       if (noteID === parsedData[i].id) {
+        // parsedData = parsedData.splice(indexOf(parsedData[i]), 1);
       }
     }
+
     let stringifiedData = JSON.stringify(newData);
     res.end(stringifiedData);
 
@@ -74,7 +84,6 @@ app.delete("/api/notes/:id", function (req, res) {
 });
 
 // *******   HTML ROUTES   *******
-
 // Returns the notes.html file.
 app.get("/notes", function (req, res) {
   res.sendFile(path.join(__dirname, "/public/notes.html"));
