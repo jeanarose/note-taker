@@ -55,7 +55,7 @@ app.post("/api/notes", function (req, res) {
 });
 
 // Should receive a query parameter containing the id of a note to delete.
-app.delete("/notes/api/notes/:id", function (req, res) {
+app.delete("/api/notes/:id", function (req, res) {
   const noteID = req.params.id;
 
   // Add it to the db.json file
