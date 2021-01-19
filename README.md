@@ -53,9 +53,13 @@ The following people contributed to the success of this application. You can vie
 * [Jonathan Watson](https://github.com/jonathanjwatson)
 * [Peter Colella](https://github.com/petercolella)
 
-The following sites were used to find code to make Weather Dashboard function properly:
+The following resources were used to find code to make Note Taker function properly:
 * [Express:](https://expressjs.com/en/starter/static-files.html) Serving up static files in Express
 * [Stack Overflow:](https://stackoverflow.com/questions/50023291/add-id-to-array-of-objects-javascript) Add ID to object in array
+* Express
+* Path
+* Node.JS
+* UUID
 
 ## License
 Copyright (c) 2021 Jeana Rose Mathis
