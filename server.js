@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // *******   API ROUTES   *******
+
 // Reads the db.json file and return all saved notes as JSON.
 app.get("/api/notes", function (req, res) {
   fs.readFile("./db/db.json", function (err, data) {
@@ -25,7 +26,7 @@ app.get("/api/notes", function (req, res) {
   });
 });
 
-// Receives a new note to save on the request body, adds it to the db.json file, and then returns the new note to the client.
+// Adds a new note to the page
 app.post("/api/notes", function (req, res) {
   const newNote = req.body;
   newNote.id = uuidv4();
@@ -46,22 +47,22 @@ app.post("/api/notes", function (req, res) {
   });
 });
 
-// Should receive a query parameter containing the id of a note to delete.
+// Deletes a note from the page
 app.delete("/api/notes/:id", function (req, res) {
   const noteID = req.params.id;
 
-  // Add it to the db.json file
   fs.readFile("./db/db.json", function (err, data) {
+
     if (err) throw err;
     let parsedData = JSON.parse(data);
     const newData = parsedData.filter((note) => {
       console.log(note.id, noteID)
       return note.id !== noteID;
     });
+
     console.log(newData);
     for (let i = 0; i < parsedData.length; i++) {
       if (noteID === parsedData[i].id) {
-        // parsedData = parsedData.splice(indexOf(parsedData[i]), 1);
       }
     }
 
@@ -76,6 +77,7 @@ app.delete("/api/notes/:id", function (req, res) {
 });
 
 // *******   HTML ROUTES   *******
+
 // Returns the notes.html file.
 app.get("/notes", function (req, res) {
   res.sendFile(path.join(__dirname, "/public/notes.html"));
