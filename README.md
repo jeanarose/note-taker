@@ -31,6 +31,20 @@ View the deployed application here: https://sheltered-savannah-52786.herokuapp.c
 5. Use the command **git clone [insert SSH key URL]** and click **Enter** (*Requires Git*).
 
 ## Usage
+1. To add a new note, simply start typing in the **Note Title** and **Note Text** fields, or click the pencil icon in the top right corner if you are currently viewing a note.
+
+![Screenshot of note taker application with the pencil icon selected in red.](public/assets/images/new-note.png)
+<hr>
+
+2. Once you have written a note that you'd like to save, click the save button in the top right corner. *Note: You must input in Note Title **and** Note Text in order for the save button to appear.* 
+
+![Screenshot of note taker application with the save icon selected in red.](public/assets/images/save-note.png)
+<hr>
+
+3. If you wish to delete a note, simply click the trash can icon next to the note that you'd like to delete.
+
+![Screenshot of note taker application with the trash can icon selected in red.](public/assets/images/delete-note.png)
+<hr>
 
 ## Credits
 The following people contributed to the success of this application. You can view their GitHub profiles by clicking on their names:
